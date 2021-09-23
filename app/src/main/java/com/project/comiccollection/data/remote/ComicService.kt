@@ -9,6 +9,6 @@ import retrofit2.http.QueryMap
 interface ComicService {
     @GET("v1/public/comics")
     suspend fun getComics(
-        @QueryMap options: Queries
+        @QueryMap options: Map<String, @JvmSuppressWildcards Any>
     ): Response<Comics>
 }

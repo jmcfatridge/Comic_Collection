@@ -6,8 +6,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -15,13 +17,24 @@ import javax.inject.Singleton
 object NetworkModule {
     private const val BASE_URL = "https://gateway.marvel.com:443"
 
+    @Singleton
+    @Provides
+    fun provideHttpClient(): OkHttpClient {
+        return OkHttpClient
+            .Builder()
+            .readTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .build()
+    }
+
     @Provides
     fun providesMoshi(): Moshi = Moshi.Builder().build()
 
     @Singleton
     @Provides
-    fun providesRetrofit(moshi: Moshi) : Retrofit = Retrofit.Builder()
+    fun providesRetrofit(moshi: Moshi, okHttpClient: OkHttpClient) : Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .client(okHttpClient)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 

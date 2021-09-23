@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config>
-        <domain includeSubdomains="true">gateway.marvel.com</domain>
+        <domain includeSubdomains="true">gateway.marvel.com:443</domain>
     </domain-config>
     <debug-overrides>
         <trust-anchors>
