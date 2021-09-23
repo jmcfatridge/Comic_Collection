@@ -2,7 +2,9 @@ package com.project.comiccollection.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.project.comiccollection.R
+import com.project.comiccollection.data.repo.ComicRepo
 import com.project.comiccollection.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
