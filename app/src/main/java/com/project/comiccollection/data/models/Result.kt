@@ -40,6 +40,8 @@ data class Result(
     val issueNumber: Int?,
     @Json(name = "modified")
     val modified: String?,
+    @Json(name = "name")
+    val name: String?,
     @Json(name = "pageCount")
     val pageCount: Int?,
     @Json(name = "prices")
