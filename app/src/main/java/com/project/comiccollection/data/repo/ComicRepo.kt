@@ -26,11 +26,14 @@ class ComicRepo @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    var offset = 0
+
     private fun getQueries(): Queries {
         val time = System.currentTimeMillis().toInt()
         return Queries(
             ts = time,
-            hash = generateHash(time)
+            hash = generateHash(time),
+            offset = offset
         )
     }
 
@@ -38,6 +41,8 @@ class ComicRepo @Inject constructor(
         get() = listOfNotNull(
             "ts" to ts,
             "apikey" to apikey,
-            "hash" to hash
+            "hash" to hash,
+            "limit" to limit,
+            "offset" to offset
         ).toMap()
 }

@@ -1,6 +1,7 @@
 package com.project.comiccollection.ui.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.project.comiccollection.data.models.Comics
 import com.project.comiccollection.data.models.Result
@@ -35,7 +36,18 @@ class ComicViewModel @Inject constructor(
         }
     }
 
+    var currentOffset = 0
+
     private fun setComicList(data: List<Result>) {
         _comicList.value = data
+    }
+
+    fun updateOffset() {
+        if (_comics.value !is ApiState.Loading) {
+            currentOffset += 20
+            comicRepo.offset = currentOffset
+            Log.e("UPDATE-OFFSET", "${comicRepo.offset}")
+            fetchComics()
+        }
     }
 }
