@@ -19,6 +19,7 @@ class ComicAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ComicViewHolder.getInstance(parent)
 
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
+        Log.e("HOLDER", "$position")
         holder.loadComic(comicList[position])
     }
 
@@ -26,11 +27,13 @@ class ComicAdapter(
 
     fun updateList(results: List<Result>) {
         val positionStart = comicList.size
+        Log.e("ADAPTER SIZE INNER", "$positionStart and ${results.size}")
         comicList.addAll(results)
         notifyItemRangeInserted(positionStart, results.size)
     }
 
     fun clear() {
+        Log.e("CLEAR", "hitting the clear")
         comicList.clear()
         val listSize = comicList.size
         notifyItemRangeRemoved(0, listSize)

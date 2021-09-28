@@ -22,6 +22,7 @@ class ComicRepo @Inject constructor(
     suspend fun getComicState(): Flow<ApiState<Comics>> {
         return flow {
             val queries = getQueries().asQueryMap
+            Log.e("TEST QUERIES", "$queries")
             emit(safeApiCall { remoteDataSource.getComics(queries) })
         }.flowOn(Dispatchers.IO)
     }

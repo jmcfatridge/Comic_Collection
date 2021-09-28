@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.comiccollection.data.adapter.ComicAdapter
 import com.project.comiccollection.data.models.Result
@@ -50,7 +51,9 @@ class ImageFragment: Fragment() {
             when(state) {
                 is ApiState.Success -> {
                     comicList.observe(viewLifecycleOwner) {
-                        loadComics(it)
+                        if (offset != currentOffset || offset == 0) {
+                            loadComics(it)
+                        }
                     }
                 }
                 is ApiState.Failure -> {
@@ -77,8 +80,12 @@ class ImageFragment: Fragment() {
 
     private fun loadComics(results: List<Result>) = with(binding.rvComics) {
         if (adapter == null)  adapter = comicAdapter
-        if (comicViewModel.currentOffset != 0) comicAdapter.clear()
+        Log.e("ADAPTER SIZE", "before clear: ${comicAdapter.itemCount}")
+        comicAdapter.clear()
+        comicViewModel.offset = comicViewModel.currentOffset
+        Log.e("ADAPTER SIZE", "after clear: ${comicAdapter.itemCount}")
         comicAdapter.updateList(results)
+        Log.e("ADAPTER SIZE", "after update: ${comicAdapter.itemCount}")
     }
 }
 

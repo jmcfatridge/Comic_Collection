@@ -24,8 +24,11 @@ class ComicViewModel @Inject constructor(
     private val _comicList: MutableLiveData<List<Result>> = MutableLiveData()
     val comicList: LiveData<List<Result>> = _comicList
 
+    private var loading = true
+
     fun fetchComics() = viewModelScope.launch {
         comicRepo.getComicState().collect {
+            loading = false
             _comics.value = it
             val comics = it.data
             val data = comics?.data
@@ -36,14 +39,18 @@ class ComicViewModel @Inject constructor(
         }
     }
 
+    var offset = 0
     var currentOffset = 0
 
     private fun setComicList(data: List<Result>) {
+        Log.e("SET COMICLIST", "set data ${data.size}")
+        Log.e("SET COMICLIST", "set data $data")
         _comicList.value = data
     }
 
     fun updateOffset() {
-        if (_comics.value !is ApiState.Loading) {
+        if (!loading) {
+            loading = true
             currentOffset += 20
             comicRepo.offset = currentOffset
             Log.e("UPDATE-OFFSET", "${comicRepo.offset}")
